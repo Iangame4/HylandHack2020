@@ -78,5 +78,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(i)
 
         }
+
+        test4.setOnClickListener {
+            val i = Intent(this, ARProofOfConceptActivity::class.java)
+            startActivity(i)
+
+        }
     }
 }
