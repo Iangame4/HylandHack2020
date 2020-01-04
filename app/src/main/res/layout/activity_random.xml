@@ -37,7 +37,7 @@
             android:layout_marginBottom="16dp"
             android:ems="10"
             android:inputType="number"
-            android:text="@string/ab_mile"
+            android:text="25"
             app:layout_constraintBottom_toTopOf="@+id/sbMiles"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"

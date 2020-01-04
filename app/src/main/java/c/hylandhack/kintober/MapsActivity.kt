@@ -62,26 +62,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         val aMinInDegs = 0.01666667
         val ratioJerks = mapOf(0 to 0.0,1 to 0.1, 2 to 0.2, 3 to 0.3, 4 to 0.4, 5 to 0.5, 6 to 0.6, 7 to 0.7, 8 to 0.8, 9 to 0.9, 10 to 1)
         var chosenOption: Int = Random.nextInt(1,10)
-        var chosenDirection: Int = Random.nextInt(1,4)
+        var chosenDirection: Int = Random.nextInt(2,3)
         var neuLat: Double = latitude
         var neuLng: Double = longitude
-        if (chosenDirection == 1){
-            neuLat = (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs)) + latitude
-            neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
-        } else if (chosenDirection == 2){
+        if (chosenDirection == 2){
             neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
             neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
         } else if (chosenDirection == 3) {
             neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
             neuLng = longitude - (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs))
-        } else if (chosenDirection == 4) {
-            neuLat = latitude + (ratioJerks[chosenOption] as Double * (10.0 * aMinInDegs))
-            neuLng =
-                longitude - (ratioJerks[10 - chosenOption] as Double * (10.0 * aMinInDegs))
-        }
         mMap.addMarker(MarkerOptions().position(LatLng(neuLat, neuLng)).title("get going shitbird"))
+
+    }
         return LatLng(neuLat, neuLng)
     }
+
 
     override fun onSuccess(p0: Location?) {
         if(p0 != null) {
@@ -121,7 +116,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         }
 
         override fun doInBackground(vararg p0: String?): PolylineOptions? {
+
+
             val data = readData(p0[0])
+
+            println(data)
             val json =
                 JSONObject(data).getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
                     .getJSONObject(0).getJSONArray("steps")
@@ -148,6 +147,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
                 options.add(LatLng(temp.getDouble("latitude"), temp.getDouble("longitude")))
                 j++
             }
+
             return options
         }
 
