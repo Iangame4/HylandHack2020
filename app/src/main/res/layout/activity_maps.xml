@@ -19,6 +19,7 @@
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:map="http://schemas.android.com/apk/res-auto"
                     xmlns:tools="http://schemas.android.com/tools"
@@ -29,14 +30,33 @@
                     tools:context=".MapsActivity" />
 
 
+            <TextView
+                    android:id="@+id/txwTimer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/done"
+                    app:elevation="16dp"
+                    app:layout_anchorGravity="bottom|right|end" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btnData"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
                     android:layout_margin="16dp"
                     android:src="@drawable/done"
-                    app:elevation="4dp"
+                    app:elevation="16dp"
                     app:layout_anchorGravity="bottom|right|end" />
+
         </FrameLayout>
 
     </LinearLayout>
