@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnRegister.setOnClickListener {
-            val i = Intent(this, MainMenuActivity::class.java)
+            val i = Intent(this, RegisterActivity::class.java)
             startActivity(i)
         }
 
