@@ -25,7 +25,7 @@
             android:max="50"
             android:progress="25"
             app:layout_constraintEnd_toStartOf="@+id/imageView2"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toBottomOf="@+id/etMiles" />
 
@@ -67,33 +67,34 @@
             app:srcCompat="@android:drawable/button_onoff_indicator_on" />
 
     <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/sRoundabout"
             android:layout_width="191dp"
             android:layout_height="21dp"
             android:layout_marginTop="148dp"
             android:layout_marginBottom="158dp"
-            android:text="Switch"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            android:checked="true"
+            android:text="@string/s_roundabout"
+            app:layout_constraintBottom_toTopOf="@+id/btnCancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sbMiles" />
 
     <Button
-            android:id="@+id/button"
+            android:id="@+id/btnCancel"
             android:layout_width="337dp"
             android:layout_height="54dp"
             android:layout_marginBottom="16dp"
-            android:text="Button"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
+            android:text="@string/btn_cancel"
+            app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnConfirm"
             android:layout_width="342dp"
             android:layout_height="51dp"
             android:layout_marginBottom="32dp"
-            android:text="Button"
+            android:text="@string/btn_confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
