@@ -15,6 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
+import kotlin.random.Random
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -49,10 +50,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? -> location?.let {
                 mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("Location"))
                 this.location = location
+                generateDestination(location?.latitude, location?.longitude)
         }}
+    }
 
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    fun generateDestination(latitude: Double?, longitude: Double?) {
+        latitude?.let{
+            longitude?.let{
+                val aMinInDegs = 0.01666667
+                val ratioJerks = mapOf(0 to 0.0,1 to 0.1, 2 to 0.2, 3 to 0.3, 4 to 0.4, 5 to 0.5, 6 to 0.6, 7 to 0.7, 8 to 0.8, 9 to 0.9, 10 to 1)
+                var chosenOption: Int = Random.nextInt(1,10)
+                var chosenDirection: Int = Random.nextInt(1,4)
+                var neuLat: Double = latitude
+                var neuLng: Double = longitude
+                if (chosenDirection == 1){
+                    neuLat = (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs)) + latitude
+                    neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
+                } else if (chosenDirection == 2){
+                    neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
+                    neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
+                } else if (chosenDirection == 3) {
+                    neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
+                    neuLng = longitude - (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs))
+                } else if (chosenDirection == 4) {
+                    neuLat = latitude + (ratioJerks[chosenOption] as Double * (10.0 * aMinInDegs))
+                    neuLng =
+                        longitude - (ratioJerks[10 - chosenOption] as Double * (10.0 * aMinInDegs))
+                }
+                mMap.addMarker(MarkerOptions().position(LatLng(neuLat, neuLng)).title("get going shitbird"))
+            }
+        }
+
     }
 }
