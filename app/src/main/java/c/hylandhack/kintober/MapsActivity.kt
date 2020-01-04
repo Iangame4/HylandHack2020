@@ -1,7 +1,9 @@
 package c.hylandhack.kintober
 
 import android.Manifest
+import android.graphics.Color
 import android.location.Location
+import android.os.AsyncTask
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,14 +16,20 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.OnSuccessListener
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
 import kotlin.random.Random
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<Location> {
 
-    private lateinit var mMap: GoogleMap
+    lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var location: Location? = null
+    private var poptions: PolylineOptions? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,40 +55,105 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val temp = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
         ActivityCompat.requestPermissions(this, temp, 1)
         mMap = googleMap
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? -> location?.let {
-                mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("Location"))
-                this.location = location
-                var zoomIn: Float = 14.0f
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), zoomIn))
-                generateDestination(location?.latitude, location?.longitude)
-
-        }}
+        fusedLocationClient.lastLocation.addOnSuccessListener(this)
     }
 
-    fun generateDestination(latitude: Double?, longitude: Double?) {
-        latitude?.let{
-            longitude?.let{
-                val aMinInDegs = 0.01666667
-                val ratioJerks = mapOf(0 to 0.0,1 to 0.1, 2 to 0.2, 3 to 0.3, 4 to 0.4, 5 to 0.5, 6 to 0.6, 7 to 0.7, 8 to 0.8, 9 to 0.9, 10 to 1)
-                var chosenOption: Int = Random.nextInt(1,10)
-                var chosenDirection: Int = Random.nextInt(1,4)
-                var neuLat: Double = latitude
-                var neuLng: Double = longitude
-                if (chosenDirection == 1){
-                    neuLat = (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs)) + latitude
-                    neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
-                } else if (chosenDirection == 2){
-                    neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
-                    neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
-                } else if (chosenDirection == 3) {
-                    neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
-                    neuLng = longitude - (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs))
-                } else if (chosenDirection == 4) {
-                    neuLat = latitude + (ratioJerks[chosenOption] as Double * (10.0 * aMinInDegs))
-                    neuLng =
-                        longitude - (ratioJerks[10 - chosenOption] as Double * (10.0 * aMinInDegs))
+    fun generateDestination(latitude: Double, longitude: Double):LatLng {
+        val aMinInDegs = 0.01666667
+        val ratioJerks = mapOf(0 to 0.0,1 to 0.1, 2 to 0.2, 3 to 0.3, 4 to 0.4, 5 to 0.5, 6 to 0.6, 7 to 0.7, 8 to 0.8, 9 to 0.9, 10 to 1)
+        var chosenOption: Int = Random.nextInt(1,10)
+        var chosenDirection: Int = Random.nextInt(1,4)
+        var neuLat: Double = latitude
+        var neuLng: Double = longitude
+        if (chosenDirection == 1){
+            neuLat = (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs)) + latitude
+            neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
+        } else if (chosenDirection == 2){
+            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
+            neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
+        } else if (chosenDirection == 3) {
+            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
+            neuLng = longitude - (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs))
+        } else if (chosenDirection == 4) {
+            neuLat = latitude + (ratioJerks[chosenOption] as Double * (10.0 * aMinInDegs))
+            neuLng =
+                longitude - (ratioJerks[10 - chosenOption] as Double * (10.0 * aMinInDegs))
+        }
+        mMap.addMarker(MarkerOptions().position(LatLng(neuLat, neuLng)).title("get going shitbird"))
+        return LatLng(neuLat, neuLng)
+    }
+
+    override fun onSuccess(p0: Location?) {
+        if(p0 != null) {
+            val temp = LatLng(p0.latitude, p0.longitude)
+            mMap.addMarker(MarkerOptions().position(temp).title("Location"))
+            this.location = location
+            var zoomIn = 14.0f
+            mMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    temp,
+                    zoomIn
+                )
+            )
+            val ret = generateDestination(p0.latitude, p0.longitude)
+            val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+            val dt = DownloadTask()
+            dt.execute(str)
+        }
+    }
+
+    inner class DownloadTask : AsyncTask<String, String, PolylineOptions?>(){
+
+        fun readData(url: String?): String{
+            val connection = URL(url).openConnection()
+            connection.connect()
+            val istream = connection.getInputStream()
+            val br = BufferedReader(InputStreamReader(istream))
+            val sb = StringBuffer()
+            var line: String?
+            do {
+                line = br.readLine()
+                sb.append(line)
+            } while (line != null)
+            val data = sb.toString()
+            br.close()
+            return data
+        }
+
+        override fun doInBackground(vararg p0: String?): PolylineOptions? {
+            val data = readData(p0[0])
+            val json =
+                JSONObject(data).getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
+                    .getJSONObject(0).getJSONArray("steps")
+            var i = 0
+            var options = PolylineOptions().width(5f).color(Color.RED)
+            var str = "https://roads.googleapis.com/v1/snapToRoads?path="
+            while (i < json.length()) {
+                val current = json.getJSONObject(i)
+                val start = current.getJSONObject("start_location")
+                str += start.getDouble("lat").toString() + "," + start.getDouble("lng").toString() + "|"
+                val end = current.getJSONObject("end_location")
+                str += end.getDouble("lat").toString() + "," + end.getDouble("lng").toString()
+                if(i < json.length()-1){
+                    str += "|"
                 }
-                mMap.addMarker(MarkerOptions().position(LatLng(neuLat, neuLng)).title("get going shitbird"))
+                i++
+            }
+            str += "&interpolate=true&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+            val data2 = readData(str)
+            val json2 = JSONObject(data2).getJSONArray("snappedPoints")
+            var j = 0
+            while(j < json2.length()){
+                var temp = json2.getJSONObject(j).getJSONObject("location")
+                options.add(LatLng(temp.getDouble("latitude"), temp.getDouble("longitude")))
+                j++
+            }
+            return options
+        }
+
+        override fun onPostExecute(result: PolylineOptions?) {
+            if(result != null){
+                mMap.addPolyline(result)
             }
         }
 

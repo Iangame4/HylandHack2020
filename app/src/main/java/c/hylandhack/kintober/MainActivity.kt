@@ -1,10 +1,12 @@
 package c.hylandhack.kintober
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
 /**
  * Login Form
@@ -14,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val temp = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        ActivityCompat.requestPermissions(this, temp, 1)
 
 
 
