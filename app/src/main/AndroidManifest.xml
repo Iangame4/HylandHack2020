@@ -10,17 +10,17 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-            tools:replace="android:appComponentFactory"
-            android:appComponentFactory="r"
             android:allowBackup="true"
+            android:appComponentFactory="r"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".RegisterActivity"></activity>
+            android:theme="@style/Theme.AppCompat.Light"
+            tools:replace="android:appComponentFactory">
+        <activity android:name=".RandomActivity"></activity>
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".MainMenuActivity" />
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
