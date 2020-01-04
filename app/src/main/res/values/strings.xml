@@ -8,4 +8,7 @@
     <string name="btn_submit">Submit</string>
     <string name="ab_mile">25</string>
     <string name="tv_random_route">Generate Route</string>
+    <string name="s_roundabout">Roundabout</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_confirm">Confirm</string>
 </resources>
