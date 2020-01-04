@@ -14,11 +14,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnSuccessListener
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var location: Location? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +48,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? -> location?.let {
                 mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("Location"))
+                this.location = location
         }}
+
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
