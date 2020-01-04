@@ -1,10 +1,12 @@
 package c.hylandhack.kintober
 
 import android.Manifest
+import android.content.Intent
 import android.graphics.Color
 import android.location.Location
 import android.os.AsyncTask
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -18,6 +20,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.OnSuccessListener
+import kotlinx.android.synthetic.main.activity_main_menu.*
+import kotlinx.android.synthetic.main.activity_maps.*
+import kotlinx.android.synthetic.main.activity_random.*
+import kotlinx.android.synthetic.main.activity_random.btnCancel
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -40,7 +46,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
+        var cancelCount = 0
+        btnCancel.setOnClickListener {
+
+            if(cancelCount == 0) {
+
+                cancelCount ++
+            }
+            else {
+                val i = Intent(this, RandomActivity::class.java)
+                startActivity(i)
+            }
+        }
+
+
+        // THE GO FAB BUTTON
+        extFab.setOnClickListener {
+
+
+        }
     }
+
+
 
     /**
      * Manipulates the map once available.
@@ -156,6 +185,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
                 mMap.addPolyline(result)
             }
         }
-
     }
+
 }
