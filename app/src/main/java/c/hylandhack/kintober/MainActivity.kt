@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+
+
+
         btnReset.setOnClickListener {
             // clearing userName and password edit text views on reset button click
             etUsername.setText("")
@@ -24,9 +27,25 @@ class MainActivity : AppCompatActivity() {
 
         // set on-click listener
         btnSubmit.setOnClickListener {
+
+
+            fun isEmailValid(email: String): Boolean {
+                return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+            }
+
             val userName = etUsername.text;
             val password = etPassword.text;
-            Toast.makeText(this@MainActivity, userName, Toast.LENGTH_LONG).show()
+
+            if (userName.length <= 0 || password.length <= 0) {
+                Toast.makeText(this@MainActivity, "PARAMETER MISSING", Toast.LENGTH_LONG).show()
+
+            } else if(isEmailValid(userName.toString()) == true){
+                Toast.makeText(this@MainActivity, "SUCCESS", Toast.LENGTH_LONG).show()
+
+            } else {
+                Toast.makeText(this@MainActivity, "FAILURE", Toast.LENGTH_LONG).show()
+
+            }
 
             // your code to validate the userName and password combination
             // and verify the same
