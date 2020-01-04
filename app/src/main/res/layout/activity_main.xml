@@ -23,7 +23,7 @@
                 android:textSize="25sp" />
 
         <EditText
-                android:id="@+id/etUserName"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/et_username"
@@ -33,7 +33,7 @@
                 android:textColorHint="#52afaa" />
 
         <EditText
-                android:id="@+id/etPassword"
+                android:id="@+id/etEmailPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/et_password"
@@ -64,10 +64,22 @@
         </LinearLayout>
 
         <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register" />
+
+        <Button
                 android:id="@+id/test1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="MainMenuTest" />
+
+        <Button
+                android:id="@+id/test2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MapActivityTest" />
     </LinearLayout>
  
 </android.support.constraint.ConstraintLayout>
