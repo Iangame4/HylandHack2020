@@ -1,12 +1,11 @@
 package c.hylandhack.kintober
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
-import android.view.View
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
+import androidx.appcompat.app.AppCompatActivity
+import android.text.TextUtils
 
 /**
  * Login Form
@@ -30,9 +29,8 @@ class MainActivity : AppCompatActivity() {
             val password = etPassword.text;
             Toast.makeText(this@MainActivity, userName, Toast.LENGTH_LONG).show()
 
-
-
-
+            // your code to validate the userName and password combination
+            // and verify the same
 
         }
 

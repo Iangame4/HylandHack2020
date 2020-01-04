@@ -1,8 +1,12 @@
 package c.hylandhack.kintober
 
-import android.content.Context
-import android.support.v7.app.AppCompatActivity
+import android.Manifest
+import android.location.Location
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -14,10 +18,13 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -34,9 +41,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
+        val temp = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        ActivityCompat.requestPermissions(this, temp, 1)
         mMap = googleMap
-
-        // Add a marker in Sydney and move the camera
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? -> location?.let {
+                mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("Location"))
+        }}
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
