@@ -38,5 +38,11 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
+        test1.setOnClickListener {
+            val i = Intent(this, MainMenuActivity::class.java)
+            startActivity(i)
+
+        }
     }
 }
