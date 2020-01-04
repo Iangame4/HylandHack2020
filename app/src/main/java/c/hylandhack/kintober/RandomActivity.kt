@@ -30,6 +30,7 @@ class RandomActivity : AppCompatActivity() {
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
                 etMiles.setText("$i")
+
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -45,6 +46,11 @@ class RandomActivity : AppCompatActivity() {
 
         btnCancel.setOnClickListener {
             val i = Intent(this, MainMenuActivity::class.java)
+            startActivity(i)
+        }
+        btnConfirm.setOnClickListener{
+            val i = Intent(this, MapsActivity::class.java)
+            i.putExtra("distance", sbMiles.progress)
             startActivity(i)
         }
     }

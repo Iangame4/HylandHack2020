@@ -38,6 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
     private var poptions: PolylineOptions? = null
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -89,20 +90,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
 
     fun generateDestination(latitude: Double, longitude: Double):LatLng {
         val aMinInDegs = 0.01666667
-        val ratioJerks = mapOf(0 to 0.0,1 to 0.1, 2 to 0.2, 3 to 0.3, 4 to 0.4, 5 to 0.5, 6 to 0.6, 7 to 0.7, 8 to 0.8, 9 to 0.9, 10 to 1)
         var chosenOption: Int = Random.nextInt(1,10)
         var chosenDirection: Int = Random.nextInt(2,3)
         var neuLat: Double = latitude
         var neuLng: Double = longitude
+        val distanceIntent = intent.getIntExtra("distance", 10)
         if (chosenDirection == 2){
-            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
-            neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
+            neuLat = latitude - ((chosenOption/10.000000001) * (distanceIntent*aMinInDegs))
+            neuLng = (((10-chosenOption)/10.000000001)  * (distanceIntent*aMinInDegs)) + longitude
         } else if (chosenDirection == 3) {
-            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
-            neuLng = longitude - (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs))
-        mMap.addMarker(MarkerOptions().position(LatLng(neuLat, neuLng)).title("get going shitbird"))
-
+            neuLat = latitude - ((chosenOption/10) * (distanceIntent*aMinInDegs))
+            neuLng = longitude - (((10-chosenOption)/10) * (distanceIntent*aMinInDegs))
     }
+        mMap.addMarker(MarkerOptions().position(LatLng(neuLat, neuLng)).title("get going shitbird"))
         return LatLng(neuLat, neuLng)
     }
 
@@ -119,10 +119,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
                     zoomIn
                 )
             )
-            val ret = generateDestination(p0.latitude, p0.longitude)
-            val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
-            val dt = DownloadTask()
+            val checkIntent = intent.getIntExtra("thing", 0)
+            if (checkIntent == 0){
+                val ret = generateDestination(p0.latitude, p0.longitude)
+                val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+                val dt = DownloadTask()
             dt.execute(str)
+            } else {
+            }
         }
     }
 
@@ -148,8 +152,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
 
 
             val data = readData(p0[0])
-
-            println(data)
             val json =
                 JSONObject(data).getJSONArray("routes").getJSONObject(0).getJSONArray("legs")
                     .getJSONObject(0).getJSONArray("steps")
