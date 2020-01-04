@@ -72,5 +72,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(i)
 
         }
+
+        test3.setOnClickListener {
+            val i = Intent(this, ARCameraActivity::class.java)
+            startActivity(i)
+
+        }
     }
 }
