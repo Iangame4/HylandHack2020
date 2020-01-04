@@ -81,6 +81,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="MapActivityTest" />
+
+        <Button
+                android:id="@+id/test3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ARViewTest" />
+
+        <Button
+                android:id="@+id/test4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AR Proof of Concept" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
