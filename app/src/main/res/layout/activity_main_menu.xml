@@ -39,11 +39,10 @@
             android:layout_width="77dp"
             android:layout_height="77dp"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@android:drawable/presence_online" />
+            app:srcCompat="@mipmap/ic_launcher" />
 
     <ImageButton
             android:id="@+id/ibWalking"
@@ -55,5 +54,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@mipmap/ic_walking_foreground" />
+
+    <ImageButton
+            android:id="@+id/ibSpeedRun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibWalking"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toEndOf="@+id/ibBiking"
+            app:srcCompat="@mipmap/ic_speedrun" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
