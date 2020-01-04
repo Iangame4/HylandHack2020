@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.appcompat.app.AppCompatActivity
-import android.text.TextUtils
 
 /**
  * Login Form
@@ -19,13 +18,13 @@ class MainActivity : AppCompatActivity() {
 
         btnReset.setOnClickListener {
             // clearing userName and password edit text views on reset button click
-            etUserName.setText("")
+            etUsername.setText("")
             etPassword.setText("")
         }
 
         // set on-click listener
         btnSubmit.setOnClickListener {
-            val userName = etUserName.text;
+            val userName = etUsername.text;
             val password = etPassword.text;
             Toast.makeText(this@MainActivity, userName, Toast.LENGTH_LONG).show()
 

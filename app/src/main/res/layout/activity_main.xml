@@ -24,7 +24,7 @@
                 android:textSize="25sp" />
 
         <EditText
-                android:id="@+id/etEmail"
+                android:id="@+id/etUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/et_username"
@@ -34,7 +34,7 @@
                 android:textColorHint="#52afaa" />
 
         <EditText
-                android:id="@+id/etEmailPassword"
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/et_password"
