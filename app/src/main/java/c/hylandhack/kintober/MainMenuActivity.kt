@@ -7,27 +7,56 @@ import kotlinx.android.synthetic.main.activity_main_menu.*
 
 class MainMenuActivity : AppCompatActivity() {
 
-
+    var pic: Boolean = true;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
 
 
-        var pic = true;
+        //changes the biking image of the image button
         ibBiking.setOnClickListener {
             ibBiking.setImageResource(
-                if(pic) R.mipmap.ic_launcher_round else R.mipmap.ic_launcher
+                if(pic)
+                {
+
+                    R.mipmap.ic_launcher_round
+                }
+                else R.mipmap.ic_launcher_round
+            )
+            ibWalking.setImageResource(
+                if (pic)
+                {
+
+                    R.mipmap.ic_walking
+
+                }
+                else R.mipmap.ic_walking
             )
             pic = !pic
         }
 
-        var pic2 = false;
+        //changes the walking image of the image button
+
         ibWalking.setOnClickListener {
             ibWalking.setImageResource(
-                if (pic2) R.mipmap.ic_walking_round else R.mipmap.ic_walking
+                if (pic)
+                {
+
+                    R.mipmap.ic_launcher_round
+
+                }
+                else R.mipmap.ic_launcher_round
             )
-            pic2 = !pic2;
+            ibBiking.setImageResource(
+                if(pic)
+                {
+                    R.mipmap.ic_walking
+                }
+                else R.mipmap.ic_walking
+            )
+            pic = !pic;
         }
+
     }
 }
