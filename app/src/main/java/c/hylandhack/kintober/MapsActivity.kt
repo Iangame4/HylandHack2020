@@ -50,7 +50,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? -> location?.let {
                 mMap.addMarker(MarkerOptions().position(LatLng(it.latitude, it.longitude)).title("Location"))
                 this.location = location
+                var zoomIn: Float = 14.0f
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.latitude, it.longitude), zoomIn))
                 generateDestination(location?.latitude, location?.longitude)
+
         }}
     }
 
