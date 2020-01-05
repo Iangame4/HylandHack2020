@@ -8,7 +8,8 @@ import kotlinx.android.synthetic.main.activity_main_menu.*
 
 class MainMenuActivity : AppCompatActivity() {
 
-    var pic: Boolean = true;
+    var pic: Boolean = true
+    var transport: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,6 @@ class MainMenuActivity : AppCompatActivity() {
             ibBiking.setImageResource(
                 if(pic)
                 {
-
                     R.mipmap.ic_biking
                 }
                 else R.mipmap.ic_biking
@@ -28,25 +28,20 @@ class MainMenuActivity : AppCompatActivity() {
             ibWalking.setImageResource(
                 if (pic)
                 {
-
                     R.mipmap.ic_walking_man_foreground
-
                 }
                 else R.mipmap.ic_walking_man_foreground
             )
             ibSpeedRun.setImageResource(
                 if (pic)
                 {
-
                     R.mipmap.ic_speedrun_foreground
-
                 }
                 else R.mipmap.ic_speedrun_foreground
             )
-
+            transport = 3
             pic = !pic
         }
-
         //changes the biking image of the image button
         ibSpeedRun.setOnClickListener {
             ibSpeedRun.setImageResource(
@@ -75,7 +70,7 @@ class MainMenuActivity : AppCompatActivity() {
                 }
                 else R.mipmap.ic_walking_man_foreground
             )
-
+            transport = 2
             pic = !pic
         }
 
@@ -107,15 +102,18 @@ class MainMenuActivity : AppCompatActivity() {
                 }
                 else R.mipmap.ic_speedrun_foreground
             )
+            transport = 1
             pic = !pic;
         }
         btnRandom.setOnClickListener {
             val i = Intent(this, RandomActivity::class.java)
+            i.putExtra("transport method", transport)
             startActivity(i)
         }
         btnSelect.setOnClickListener{
             val i = Intent(this, MapsActivity::class.java)
             i.putExtra("thing",1)
+            i.putExtra("transport method", transport)
             startActivity(i)
         }
         btnLeaderboard.setOnClickListener{
@@ -124,6 +122,7 @@ class MainMenuActivity : AppCompatActivity() {
         }
         btnOfficial.setOnClickListener{
             val i = Intent(this, MapsActivity::class.java)
+            i.putExtra("transport method", transport)
             startActivity(i)
         }
     }
