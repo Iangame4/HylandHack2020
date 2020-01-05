@@ -75,18 +75,6 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
 
         (ux_fragment as ArFragment).arSceneView.scene.addOnUpdateListener(this@ARProofOfConceptActivity)
 
-        val session: Session? = (ux_fragment as ArFragment).getArSceneView().getSession()
-
-        val position = floatArrayOf(0f, 0f, 0f)
-
-        val rotation = floatArrayOf(0f, 0f, 0f, 1f)
-
-        val anchor = session?.createAnchor(Pose(position, rotation))
-
-        anode = AnchorNode(anchor).apply {
-            setParent((ux_fragment as ArFragment).getArSceneView().getScene())
-        }
-
     }
 
     private fun screenCenter(): Vector3 {
@@ -184,7 +172,9 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
                 node?.localPosition = temp2
             }
         }*/
-        node?.localPosition = Vector3.lerp(node?.localPosition, Vector3(0f,-1f, 0f), scale)
+        val temp = Vector3.add(node?.localPosition, node?.forward?.scaled(scale))
+        node?.localPosition = temp
+        //node?.localPosition = Vector3.lerp(node?.localPosition, Vector3(0f, -1.5f, 0f), scale)
         //val temp = pose.rotateVector(floatArrayOf(offset?.x, offset?.y, offset?.z))
         //val temp2 = node?.worldToLocalDirection(offset)
         //val temp = Vector3.add(anode?.worldPosition, offset)
@@ -198,8 +188,20 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
     fun click(v: View){
         Log.d("Forward", node.toString())
         //node?.localRotation = Quaternion.axisAngle(Vector3(0f,1f,0f), 40f)
+        //anode2?.removeChild(node)
+        /*val session: Session? = (ux_fragment as ArFragment).getArSceneView().getSession()
+
+        val position = floatArrayOf(0f, 0f, 5f)
+
+        val rotation = floatArrayOf(0f, 0f, 0f, 1f)
+
+        val anchor = session?.createAnchor(Pose(position, rotation))
+
+        anode = AnchorNode(anchor).apply {
+            setParent((ux_fragment as ArFragment).getArSceneView().getScene())
+        }
         node?.setParent(anode)
-        node?.localPosition = anode2?.localPosition
+        node?.localPosition = anode2?.localPosition*/
         timerHandler?.postDelayed(this, 0)
     }
 }
