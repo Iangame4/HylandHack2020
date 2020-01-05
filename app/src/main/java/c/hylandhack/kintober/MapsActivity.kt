@@ -134,7 +134,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
                     val dt = DownloadTask()
                     dt.execute(str)
                 } else  {
-
                         mMap.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                             override fun onMapClick(point: LatLng) {
                                 if (looperByRianJohnson){
