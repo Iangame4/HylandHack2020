@@ -71,7 +71,7 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
 
         val session: Session? = (ux_fragment as ArFragment).getArSceneView().getSession()
 
-        val position = floatArrayOf(0f, 0f, .75f)
+        val position = floatArrayOf(0f, 0f, 0f)
 
         val rotation = floatArrayOf(0f, 0f, 0f, 1f)
 
