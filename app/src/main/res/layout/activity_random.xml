@@ -46,25 +46,25 @@
 
     <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="39dp"
+            android:layout_height="31dp"
             android:layout_marginTop="224dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.567"
             app:layout_constraintStart_toEndOf="@+id/sbMiles"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:srcCompat="@mipmap/ic_plus_round" />
 
     <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="232dp"
+            android:layout_width="39dp"
+            android:layout_height="31dp"
+            android:layout_marginTop="224dp"
             app:layout_constraintEnd_toStartOf="@+id/sbMiles"
             app:layout_constraintHorizontal_bias="0.576"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/button_onoff_indicator_on" />
+            app:srcCompat="@mipmap/ic_minus_round" />
 
     <Switch
             android:id="@+id/sRoundabout"
@@ -72,7 +72,7 @@
             android:layout_height="21dp"
             android:layout_marginTop="148dp"
             android:layout_marginBottom="158dp"
-            android:checked="true"
+            android:checked="false"
             android:text="@string/s_roundabout"
             app:layout_constraintBottom_toTopOf="@+id/btnCancel"
             app:layout_constraintEnd_toEndOf="parent"
