@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity() {
 
             } else {
                 Toast.makeText(this@MainActivity, "SUCCESS", Toast.LENGTH_LONG).show()
-
+                val i = Intent(this, MainMenuActivity::class.java)
+                startActivity(i)
             }
 
             // your code to validate the userName and password combination
