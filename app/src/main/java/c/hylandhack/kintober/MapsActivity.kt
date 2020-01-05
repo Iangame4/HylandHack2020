@@ -117,8 +117,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
 
             if (p0 != null) {
                 val temp = LatLng(p0.latitude, p0.longitude)
-                var ret = LatLng(1.3,3.7)
-
+                var ret: LatLng
+                var modeNum: String
                 mMap.addMarker(MarkerOptions().position(temp).title("Location"))
                 this.location = location
                 var zoomIn = 14.0f
@@ -130,25 +130,38 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
                 )
 
                 val checkIntent = intent.getIntExtra("thing", 0)
+                val transportIntent = intent.getIntExtra("transport method", 1)
+                if (transportIntent == 1){
+                    modeNum = "&mode=walking"
+                } else if (transportIntent == 3){
+                    modeNum = "&mode=biking"
+                }
                 if (checkIntent == 0){
                     ret = generateDestination(p0.latitude, p0.longitude)
                     val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
                     val dt = DownloadTask()
-                    dt.execute(str)
+                    if (transportIntent == 2){
+                        mMap.addPolyline(PolylineOptions().add(temp).width(5f).color(Color.RED).add(ret))
+                    } else{
+                        dt.execute(str)
+                    }
                 } else  {
                         mMap.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                             override fun onMapClick(point: LatLng) {
                                 if (looperByRianJohnson){
                                     looperByRianJohnson = false
-                                mMap.addMarker(MarkerOptions().position(point).title("Custom Destination"))
-                                ret = point
-                                val str =
-                                    "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
-                                val dt = DownloadTask()
-                                dt.execute(str)
+                                    mMap.addMarker(MarkerOptions().position(point).title("Custom Destination"))
+                                    ret = point
+                                    val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+                                    val dt = DownloadTask()
+                                    if (transportIntent == 2){
+                                        mMap.addPolyline(PolylineOptions().add(temp).width(5f).color(Color.RED).add(ret))
+                                    } else{
+                                        dt.execute(str)
+                                    }
+                                }
                             }
-                        }
-                    })
+                        })
                 }
             }
     }
