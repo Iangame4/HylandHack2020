@@ -75,11 +75,6 @@
                 android:layout_height="wrap_content"
                 android:text="Register" />
 
-        <Button
-                android:id="@+id/test4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="AR Proof of Concept" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
