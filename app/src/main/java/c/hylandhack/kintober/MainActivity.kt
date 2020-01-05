@@ -40,12 +40,11 @@ class MainActivity : AppCompatActivity() {
 
             if (userName.length <= 0 || password.length <= 0) {
                 Toast.makeText(this@MainActivity, "PARAMETER MISSING", Toast.LENGTH_LONG).show()
-
-            } else if(isEmailValid(userName.toString()) == true){
-                Toast.makeText(this@MainActivity, "SUCCESS", Toast.LENGTH_LONG).show()
+                val i = Intent(this, MainMenuActivity::class.java)
+                startActivity(i)
 
             } else {
-                Toast.makeText(this@MainActivity, "FAILURE", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "SUCCESS", Toast.LENGTH_LONG).show()
 
             }
 
@@ -57,24 +56,6 @@ class MainActivity : AppCompatActivity() {
         btnRegister.setOnClickListener {
             val i = Intent(this, RegisterActivity::class.java)
             startActivity(i)
-        }
-
-        test1.setOnClickListener {
-            val i = Intent(this, MainMenuActivity::class.java)
-            startActivity(i)
-
-        }
-
-        test2.setOnClickListener {
-            val i = Intent(this, MapsActivity::class.java)
-            startActivity(i)
-
-        }
-
-        test3.setOnClickListener {
-            val i = Intent(this, ARCameraActivity::class.java)
-            startActivity(i)
-
         }
 
         test4.setOnClickListener {

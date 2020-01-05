@@ -6,14 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="c.hylandhack.kintober.MainActivity">
+
     <LinearLayout
-        android:id="@+id/llMainLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="#444444"
-        android:padding="25dp"
-        android:orientation="vertical">
+            android:id="@+id/llMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#444444"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="25dp"
+            tools:layout_editor_absoluteX="-28dp"
+            tools:layout_editor_absoluteY="-58dp">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -42,12 +45,13 @@
                 android:textAlignment="center"
                 android:textColor="#6bfff7"
                 android:textColorHint="#52afaa" />
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="25dp"
-            android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="25dp">
 
             <Button
                     android:id="@+id/btnReset"
@@ -70,24 +74,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Register" />
-
-        <Button
-                android:id="@+id/test1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="MainMenuTest" />
-
-        <Button
-                android:id="@+id/test2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="MapActivityTest" />
-
-        <Button
-                android:id="@+id/test3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ARViewTest" />
 
         <Button
                 android:id="@+id/test4"

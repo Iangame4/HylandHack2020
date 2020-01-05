@@ -70,7 +70,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         }
 
         btnArView.setOnClickListener {
-            val i = Intent(this, ARCameraActivity::class.java)
+            val i = Intent(this, ARProofOfConceptActivity::class.java)
             startActivity(i)
         }
     }
