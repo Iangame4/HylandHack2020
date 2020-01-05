@@ -66,6 +66,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         extFab.setOnClickListener {
             extFab.hide()
         }
+
+        btnArView.setOnClickListener {
+            val i = Intent(this, ARCameraActivity::class.java)
+            startActivity(i)
+        }
     }
 
 

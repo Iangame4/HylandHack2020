@@ -2,6 +2,7 @@ package c.hylandhack.kintober
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val temp = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.CAMERA)
         ActivityCompat.requestPermissions(this, temp, 1)
-
 
 
         btnReset.setOnClickListener {
