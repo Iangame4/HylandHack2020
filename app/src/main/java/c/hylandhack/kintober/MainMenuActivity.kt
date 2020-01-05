@@ -109,8 +109,13 @@ class MainMenuActivity : AppCompatActivity() {
             )
             pic = !pic;
         }
-            btnRandom.setOnClickListener {
+        btnRandom.setOnClickListener {
             val i = Intent(this, RandomActivity::class.java)
+            startActivity(i)
+        }
+        btnSelect.setOnClickListener{
+            val i = Intent(this, MapsActivity::class.java)
+            i.putExtra("thing",1)
             startActivity(i)
         }
     }
