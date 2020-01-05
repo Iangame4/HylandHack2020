@@ -20,7 +20,7 @@ class RandomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_random)
-
+        val transportIntent = intent.getIntExtra("transport method", 1)
         val etMiles = findViewById<EditText>(R.id.etMiles)
         val sbMiles = findViewById<SeekBar>(R.id.sbMiles)
 
@@ -51,6 +51,7 @@ class RandomActivity : AppCompatActivity() {
         btnConfirm.setOnClickListener{
             val i = Intent(this, MapsActivity::class.java)
             i.putExtra("distance", sbMiles.progress)
+            i.putExtra("transport method", transportIntent)
             startActivity(i)
         }
     }
