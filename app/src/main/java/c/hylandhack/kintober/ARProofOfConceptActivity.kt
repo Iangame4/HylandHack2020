@@ -1,12 +1,12 @@
 package c.hylandhack.kintober
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.core.Pose
@@ -18,25 +18,36 @@ import com.google.ar.sceneform.Scene
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
-import com.google.ar.sceneform.ux.BaseArFragment.OnTapArPlaneListener
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.activity_arproof_of_concept.*
 
-class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener {
+class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Runnable {
 
     // When you build a Renderable, Sceneform loads its resources in the background while returning
     // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
     private var modelRenderable: ModelRenderable? = null
 
     //A method to find the screen center. This is used while placing objects in the scene
+    var destx = 41.469456
+    var desty = -81.948889
+    var x = 41.468391
+    var y = -81.933355
+    var offset: Vector3? = null
+    val scale = 0.05f
+    private var timerHandler: Handler? = null
 
-
+    var bool = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_arproof_of_concept)
 
-        //Create the football renderable
+        // When you build a Renderable, Sceneform loads its resources in the background while returning
+       // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
+        timerHandler = Handler()
+        offset = calcVector(x,y,destx, desty)
+        bool = true
+        var kintoRender: ModelRenderable? = null
         ModelRenderable.builder()
             //get the context of the ARFragment and pass the name of your .sfb file
             .setSource(this, R.raw.kintober_ghost)
@@ -58,7 +69,7 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener {
     override fun onUpdate(frameTime: FrameTime?) {
         val frame = (ux_fragment as ArFragment).arSceneView.arFrame
 
-        if (frame != null) {
+        if (frame != null && bool) {
             //get the trackables to ensure planes are detected
             val var3 = frame.getUpdatedTrackables(Plane::class.java).iterator()
             while (var3.hasNext()) {
@@ -81,6 +92,7 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener {
 
                         //iterate through all hits
                         val hitTestIterator = hitTest.iterator()
+                        bool = false
                         while (hitTestIterator.hasNext()) {
                             val hitResult = hitTestIterator.next()
 
@@ -95,6 +107,7 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener {
                             val transformableNode = TransformableNode((ux_fragment as ArFragment).transformationSystem)
                             transformableNode.setParent(anchorNode)
                             transformableNode.renderable = this@ARProofOfConceptActivity.modelRenderable
+                            transformableNode.select()
 
                             //Alter the real world position to ensure object renders on the table top. Not somewhere inside.
                             transformableNode.worldPosition = Vector3(
@@ -107,5 +120,19 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener {
                 }
             }
         }
+    }
+
+    fun calcVector(x: Double, y: Double, dx: Double, dy: Double): Vector3{
+        return Vector3((dx-x).toFloat(), 0f, (dy-y).toFloat()).normalized()
+    }
+
+    override fun run() {
+        val temp = Vector3.add((ux_fragment as ArFragment).transformationSystem.selectedNode?.worldPosition, offset?.scaled(scale))
+        (ux_fragment as ArFragment).transformationSystem.selectedNode?.worldPosition = temp
+        timerHandler?.postDelayed(this, 50)
+    }
+
+    fun click(v: View){
+        timerHandler?.postDelayed(this, 0)
     }
 }

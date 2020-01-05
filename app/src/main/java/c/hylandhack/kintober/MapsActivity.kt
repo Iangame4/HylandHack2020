@@ -36,6 +36,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private var location: Location? = null
     private var poptions: PolylineOptions? = null
+    private var looperByRianJohnson = true
 
 
 
@@ -106,39 +107,44 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
 
 
     override fun onSuccess(p0: Location?) {
-        if (p0 != null) {
-            val temp = LatLng(p0.latitude, p0.longitude)
-            var ret = LatLng(1.3,3.7)
-            mMap.addMarker(MarkerOptions().position(temp).title("Location"))
-            this.location = location
-            var zoomIn = 14.0f
-            mMap.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    temp,
-                    zoomIn
+
+            if (p0 != null) {
+                val temp = LatLng(p0.latitude, p0.longitude)
+                var ret = LatLng(1.3,3.7)
+
+                mMap.addMarker(MarkerOptions().position(temp).title("Location"))
+                this.location = location
+                var zoomIn = 14.0f
+                mMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        temp,
+                        zoomIn
+                    )
                 )
-            )
-            val checkIntent = intent.getIntExtra("thing", 0)
-            if (checkIntent == 0){
-                ret = generateDestination(p0.latitude, p0.longitude)
-                val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
-                val dt = DownloadTask()
-                dt.execute(str)
-            } else {
-                println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-                mMap.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
-                    override fun onMapClick(point: LatLng){
-                        mMap.addMarker(MarkerOptions().position(point).title("Custom Destination"))
-                        ret = point
-                        val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
-                        val dt = DownloadTask()
-                        dt.execute(str)
+
+                val checkIntent = intent.getIntExtra("thing", 0)
+                if (checkIntent == 0){
+                    ret = generateDestination(p0.latitude, p0.longitude)
+                    val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+                    val dt = DownloadTask()
+                    dt.execute(str)
+                } else  {
+
+                        mMap.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+                            override fun onMapClick(point: LatLng) {
+                                if (looperByRianJohnson){
+                                    looperByRianJohnson = false
+                                mMap.addMarker(MarkerOptions().position(point).title("Custom Destination"))
+                                ret = point
+                                val str =
+                                    "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+                                val dt = DownloadTask()
+                                dt.execute(str)
+                            }
+                        }
+                    })
                 }
-                })
-
-
             }
-        }
     }
 
     inner class DownloadTask : AsyncTask<String, String, PolylineOptions?>() {
