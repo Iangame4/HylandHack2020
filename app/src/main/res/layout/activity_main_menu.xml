@@ -78,7 +78,7 @@
             app:srcCompat="@mipmap/ic_kintober_logo_foreground" />
 
     <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnLeaderboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="141dp"

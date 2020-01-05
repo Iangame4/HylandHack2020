@@ -118,5 +118,9 @@ class MainMenuActivity : AppCompatActivity() {
             i.putExtra("thing",1)
             startActivity(i)
         }
+        btnLeaderboard.setOnClickListener{
+            val i = Intent(this, LeaderboardActivity::class.java)
+            startActivity(i)
+        }
     }
 }
