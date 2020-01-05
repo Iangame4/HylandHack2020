@@ -11,4 +11,10 @@
     <string name="s_roundabout">Roundabout</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_confirm">Confirm</string>
+    <string name="lboard_title">Leaderboard</string>
+    <string name="btn_return">Return to Menu</string>
+    <string name="hi_scores">01. Robonick\n02. redfurt\n03. Boxrongle\n04. John-Fitness\n05. Woololoo\n06. KraftyCheese\n07. Sonny_the_Hog\n08. kyle997\n09. garfous\n10. ddeeffgg\n11. sneezychoo\n12. Prof.Oats\n13. candychick\n14. roxasXIII\n15. lambdaPlex</string>
+    <string name="distances">Ten Mile High Scores - Running</string>
+    <string name="time_scores">00:04:10\n00:04:22\n00:05:37\n00:12:13\n00:15:05\n00:20:57\n00:21:00\n00:23:45\n00:37:50\n00:51:50\n00:55:32\n01:12:03\n01:30:35\n02:05:46\n02:22:14</string>
+    <string name="btn_hi_scores">Leaderboard</string>
 </resources>
