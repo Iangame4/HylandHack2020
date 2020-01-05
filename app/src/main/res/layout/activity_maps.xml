@@ -37,11 +37,11 @@
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:id="@+id/btnData"
-                    android:layout_width="80dp"
+                    android:layout_width="58dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|right"
                     android:layout_margin="16dp"
-                    android:icon="@android:drawable/ic_dialog_info"
+                    app:icon="@android:drawable/star_big_on"
                     app:layout_anchorGravity="bottom|right|end" />
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

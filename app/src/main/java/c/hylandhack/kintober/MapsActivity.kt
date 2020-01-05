@@ -51,24 +51,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         var cancelCount = 0
         btnCancel.setOnClickListener {
 
-            if(cancelCount == 0) {
+            if (cancelCount == 0) {
 
-                cancelCount ++
-            }
-            else {
+                cancelCount++
+            } else {
                 val i = Intent(this, RandomActivity::class.java)
                 startActivity(i)
             }
         }
 
-
         // THE GO FAB BUTTON
         extFab.setOnClickListener {
-
-
+            extFab.hide()
         }
     }
-
 
 
     /**
@@ -87,28 +83,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         fusedLocationClient.lastLocation.addOnSuccessListener(this)
     }
 
-    fun generateDestination(latitude: Double, longitude: Double):LatLng {
+    fun generateDestination(latitude: Double, longitude: Double): LatLng {
         val aMinInDegs = 0.01666667
-        val ratioJerks = mapOf(0 to 0.0,1 to 0.1, 2 to 0.2, 3 to 0.3, 4 to 0.4, 5 to 0.5, 6 to 0.6, 7 to 0.7, 8 to 0.8, 9 to 0.9, 10 to 1)
-        var chosenOption: Int = Random.nextInt(1,10)
-        var chosenDirection: Int = Random.nextInt(2,3)
+        val ratioJerks = mapOf(
+            0 to 0.0,
+            1 to 0.1,
+            2 to 0.2,
+            3 to 0.3,
+            4 to 0.4,
+            5 to 0.5,
+            6 to 0.6,
+            7 to 0.7,
+            8 to 0.8,
+            9 to 0.9,
+            10 to 1
+        )
+        var chosenOption: Int = Random.nextInt(1, 10)
+        var chosenDirection: Int = Random.nextInt(2, 3)
         var neuLat: Double = latitude
         var neuLng: Double = longitude
-        if (chosenDirection == 2){
-            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
-            neuLng = (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs)) + longitude
+        if (chosenDirection == 2) {
+            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0 * aMinInDegs))
+            neuLng = (ratioJerks[10 - chosenOption] as Double * (10.0 * aMinInDegs)) + longitude
         } else if (chosenDirection == 3) {
-            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0*aMinInDegs))
-            neuLng = longitude - (ratioJerks[10-chosenOption] as Double *(10.0*aMinInDegs))
-        mMap.addMarker(MarkerOptions().position(LatLng(neuLat, neuLng)).title("get going shitbird"))
+            neuLat = latitude - (ratioJerks[chosenOption] as Double * (10.0 * aMinInDegs))
+            neuLng = longitude - (ratioJerks[10 - chosenOption] as Double * (10.0 * aMinInDegs))
+            mMap.addMarker(
+                MarkerOptions().position(
+                    LatLng(
+                        neuLat,
+                        neuLng
+                    )
+                ).title("get going shitbird")
+            )
 
-    }
+        }
         return LatLng(neuLat, neuLng)
     }
 
 
     override fun onSuccess(p0: Location?) {
-        if(p0 != null) {
+        if (p0 != null) {
             val temp = LatLng(p0.latitude, p0.longitude)
             mMap.addMarker(MarkerOptions().position(temp).title("Location"))
             this.location = location
@@ -120,15 +135,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
                 )
             )
             val ret = generateDestination(p0.latitude, p0.longitude)
-            val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+            val str =
+                "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
             val dt = DownloadTask()
             dt.execute(str)
         }
     }
 
-    inner class DownloadTask : AsyncTask<String, String, PolylineOptions?>(){
+    inner class DownloadTask : AsyncTask<String, String, PolylineOptions?>() {
 
-        fun readData(url: String?): String{
+        fun readData(url: String?): String {
             val connection = URL(url).openConnection()
             connection.connect()
             val istream = connection.getInputStream()
@@ -162,7 +178,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
                 str += start.getDouble("lat").toString() + "," + start.getDouble("lng").toString() + "|"
                 val end = current.getJSONObject("end_location")
                 str += end.getDouble("lat").toString() + "," + end.getDouble("lng").toString()
-                if(i < json.length()-1){
+                if (i < json.length() - 1) {
                     str += "|"
                 }
                 i++
@@ -171,7 +187,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
             val data2 = readData(str)
             val json2 = JSONObject(data2).getJSONArray("snappedPoints")
             var j = 0
-            while(j < json2.length()){
+            while (j < json2.length()) {
                 var temp = json2.getJSONObject(j).getJSONObject("location")
                 options.add(LatLng(temp.getDouble("latitude"), temp.getDouble("longitude")))
                 j++
@@ -181,7 +197,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         }
 
         override fun onPostExecute(result: PolylineOptions?) {
-            if(result != null){
+            if (result != null) {
                 mMap.addPolyline(result)
             }
         }
