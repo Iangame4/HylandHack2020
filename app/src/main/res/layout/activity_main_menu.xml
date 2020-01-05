@@ -38,32 +38,43 @@
             android:id="@+id/ibBiking"
             android:layout_width="77dp"
             android:layout_height="77dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@mipmap/ic_biking_foreground" />
+
+    <ImageButton
+            android:id="@+id/ibWalking"
+            android:layout_width="77dp"
+            android:layout_height="77dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher" />
-
-    <ImageButton
-            android:id="@+id/ibWalking"
-            android:layout_width="76dp"
-            android:layout_height="73dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@mipmap/ic_walking_foreground" />
+            app:srcCompat="@mipmap/ic_walking_man" />
 
     <ImageButton
             android:id="@+id/ibSpeedRun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="77dp"
+            android:layout_height="77dp"
             android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ibWalking"
-            app:layout_constraintHorizontal_bias="0.492"
-            app:layout_constraintStart_toEndOf="@+id/ibBiking"
-            app:srcCompat="@mipmap/ic_speedrun" />
+            app:layout_constraintEnd_toStartOf="@+id/ibBiking"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/ibWalking"
+            app:srcCompat="@mipmap/ic_speedrun_foreground" />
+
+    <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="304dp"
+            android:layout_height="276dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/btnRandom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_kintober_logo_foreground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
