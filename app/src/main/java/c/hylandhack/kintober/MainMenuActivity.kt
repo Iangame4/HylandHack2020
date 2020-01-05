@@ -21,27 +21,27 @@ class MainMenuActivity : AppCompatActivity() {
                 if(pic)
                 {
 
-                    R.mipmap.ic_launcher_round
+                    R.mipmap.ic_biking
                 }
-                else R.mipmap.ic_launcher_round
+                else R.mipmap.ic_biking
             )
             ibWalking.setImageResource(
                 if (pic)
                 {
 
-                    R.mipmap.ic_walking
+                    R.mipmap.ic_walking_man_foreground
 
                 }
-                else R.mipmap.ic_walking
+                else R.mipmap.ic_walking_man_foreground
             )
             ibSpeedRun.setImageResource(
                 if (pic)
                 {
 
-                    R.mipmap.ic_speedrun
+                    R.mipmap.ic_speedrun_foreground
 
                 }
-                else R.mipmap.ic_speedrun
+                else R.mipmap.ic_speedrun_foreground
             )
 
             pic = !pic
@@ -53,27 +53,27 @@ class MainMenuActivity : AppCompatActivity() {
                 if(pic)
                 {
 
-                    R.mipmap.ic_launcher_round
+                    R.mipmap.ic_speedrun
                 }
-                else R.mipmap.ic_launcher_round
+                else R.mipmap.ic_speedrun
             )
             ibBiking.setImageResource(
                 if (pic)
                 {
 
-                    R.mipmap.ic_speedrun
+                    R.mipmap.ic_biking_foreground
 
                 }
-                else R.mipmap.ic_speedrun
+                else R.mipmap.ic_biking_foreground
             )
             ibWalking.setImageResource(
                 if (pic)
                 {
 
-                    R.mipmap.ic_walking
+                    R.mipmap.ic_walking_man_foreground
 
                 }
-                else R.mipmap.ic_walking
+                else R.mipmap.ic_walking_man_foreground
             )
 
             pic = !pic
@@ -86,26 +86,26 @@ class MainMenuActivity : AppCompatActivity() {
                 if (pic)
                 {
 
-                    R.mipmap.ic_launcher_round
+                    R.mipmap.ic_walking_man
 
                 }
-                else R.mipmap.ic_launcher_round
+                else R.mipmap.ic_walking_man
             )
             ibBiking.setImageResource(
                 if(pic)
                 {
-                    R.mipmap.ic_walking
+                    R.mipmap.ic_biking_foreground
                 }
-                else R.mipmap.ic_walking
+                else R.mipmap.ic_biking_foreground
             )
             ibSpeedRun.setImageResource(
                 if (pic)
                 {
 
-                    R.mipmap.ic_speedrun
+                    R.mipmap.ic_speedrun_foreground
 
                 }
-                else R.mipmap.ic_speedrun
+                else R.mipmap.ic_speedrun_foreground
             )
             pic = !pic;
         }
