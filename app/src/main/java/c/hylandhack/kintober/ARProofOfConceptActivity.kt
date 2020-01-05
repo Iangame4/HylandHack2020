@@ -47,7 +47,7 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener {
             .thenAccept { modelRenderable -> this@ARProofOfConceptActivity.modelRenderable = modelRenderable }
 
         (ux_fragment as ArFragment).arSceneView.scene.addOnUpdateListener(this@ARProofOfConceptActivity)
-        
+
     }
 
     private fun screenCenter(): Vector3 {
