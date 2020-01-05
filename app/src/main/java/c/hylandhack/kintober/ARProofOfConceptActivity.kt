@@ -2,24 +2,23 @@ package c.hylandhack.kintober
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.Gravity
-import android.view.MotionEvent
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.ar.core.HitResult
+import com.google.ar.core.Anchor
 import com.google.ar.core.Plane
 import com.google.ar.core.Pose
+import com.google.ar.core.Session
 import com.google.ar.core.TrackingState
-import com.google.ar.sceneform.SceneView
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
+import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.Scene
 import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
-import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.activity_arproof_of_concept.*
+
 
 class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Runnable {
 
@@ -28,13 +27,24 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
     private var modelRenderable: ModelRenderable? = null
 
     //A method to find the screen center. This is used while placing objects in the scene
+    var dest = Vector3()
     var destx = 41.469456
     var desty = -81.948889
     var x = 41.468391
     var y = -81.933355
     var offset: Vector3? = null
     val scale = 0.05f
+    val sx = 89354.8579f
+    val sy = 169934.6405f
     private var timerHandler: Handler? = null
+
+    var modelAnchor: Anchor? = null
+
+    var node: Node? = null
+    var anode: AnchorNode? = null
+    var anode2: AnchorNode? = null
+
+    var pose: Pose? = null
 
     var bool = true
 
@@ -45,7 +55,7 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
         // When you build a Renderable, Sceneform loads its resources in the background while returning
        // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
         timerHandler = Handler()
-        offset = calcVector(x,y,destx, desty)
+        offset = calcVector(x,y,destx, desty).scaled(scale)
         bool = true
         var kintoRender: ModelRenderable? = null
         ModelRenderable.builder()
@@ -58,6 +68,18 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
             .thenAccept { modelRenderable -> this@ARProofOfConceptActivity.modelRenderable = modelRenderable }
 
         (ux_fragment as ArFragment).arSceneView.scene.addOnUpdateListener(this@ARProofOfConceptActivity)
+
+        val session: Session? = (ux_fragment as ArFragment).getArSceneView().getSession()
+
+        val position = floatArrayOf(0f, 0f, .75f)
+
+        val rotation = floatArrayOf(0f, 0f, 0f, 1f)
+
+        val anchor = session?.createAnchor(Pose(position, rotation))
+
+        anode = AnchorNode(anchor).apply {
+            setParent((ux_fragment as ArFragment).getArSceneView().getScene())
+        }
 
     }
 
@@ -89,7 +111,6 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
                     if (!iterableAnchor.hasNext()) {
                         //Perform a hit test at the center of the screen to place an object without tapping
                         val hitTest = frame.hitTest(screenCenter().x, screenCenter().y)
-
                         //iterate through all hits
                         val hitTestIterator = hitTest.iterator()
                         bool = false
@@ -97,24 +118,47 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
                             val hitResult = hitTestIterator.next()
 
                             //Create an anchor at the plane hit
-                            val modelAnchor = plane.createAnchor(hitResult.hitPose)
+                            if(node == null) {
+                                val modelAnchor = plane.createAnchor(hitResult.hitPose)
+                                //pose = modelAnchor.pose
+                                //Attach a node to this anchor with the scene as the parent
+                                val anchorNode = AnchorNode(modelAnchor)
+                                anchorNode.setParent((ux_fragment as ArFragment).arSceneView.scene)
 
-                            //Attach a node to this anchor with the scene as the parent
-                            val anchorNode = AnchorNode(modelAnchor)
-                            anchorNode.setParent((ux_fragment as ArFragment).arSceneView.scene)
+                                //create a new TranformableNode that will carry our object
+                                node = Node().apply {
+                                    setParent(anchorNode)
+                                    renderable =
+                                        this@ARProofOfConceptActivity.modelRenderable
+                                    worldPosition = Vector3(
+                                        modelAnchor.pose.tx(),
+                                        modelAnchor.pose.compose(
+                                            Pose.makeTranslation(
+                                                0f,
+                                                0f,
+                                                0f
+                                            )
+                                        ).ty(),
+                                        modelAnchor.pose.tz())
+                                }
+                                anode2 = anchorNode
+                                /*
+                                node.setParent(anchorNode)
+                                node.renderable =
+                                    this@ARProofOfConceptActivity.modelRenderable
 
-                            //create a new TranformableNode that will carry our object
-                            val transformableNode = TransformableNode((ux_fragment as ArFragment).transformationSystem)
-                            transformableNode.setParent(anchorNode)
-                            transformableNode.renderable = this@ARProofOfConceptActivity.modelRenderable
-                            transformableNode.select()
-
-                            //Alter the real world position to ensure object renders on the table top. Not somewhere inside.
-                            transformableNode.worldPosition = Vector3(
-                                modelAnchor.pose.tx(),
-                                modelAnchor.pose.compose(Pose.makeTranslation(0f, 0.05f, 0f)).ty(),
-                                modelAnchor.pose.tz()
-                            )
+                                //Alter the real world position to ensure object renders on the table top. Not somewhere inside.
+                                node.worldPosition = Vector3(
+                                    modelAnchor.pose.tx(),
+                                    modelAnchor.pose.compose(
+                                        Pose.makeTranslation(
+                                            0f,
+                                            0.05f,
+                                            0f
+                                        )
+                                    ).ty(),
+                                    modelAnchor.pose.tz()*/
+                            }
                         }
                     }
                 }
@@ -123,16 +167,33 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
     }
 
     fun calcVector(x: Double, y: Double, dx: Double, dy: Double): Vector3{
-        return Vector3((dx-x).toFloat(), 0f, (dy-y).toFloat()).normalized()
+        return Vector3(((dy-y)*sx).toFloat(), 0f, ((dx-x)*sy).toFloat())
     }
 
     override fun run() {
-        val temp = Vector3.add((ux_fragment as ArFragment).transformationSystem.selectedNode?.worldPosition, offset?.scaled(scale))
-        (ux_fragment as ArFragment).transformationSystem.selectedNode?.worldPosition = temp
+        /*offset?.let {
+            val temp = pose?.inverse()?.rotateVector(floatArrayOf(it.x, it.y, it.z))
+            if(temp != null) {
+                val temp2 = Vector3.add(node?.localPosition, Vector3(temp[0],temp[1], temp[2]))
+                node?.localPosition = temp2
+            }
+        }*/
+        node?.localPosition = Vector3.lerp(node?.localPosition, Vector3(0f,-1f, 0f), scale)
+        //val temp = pose.rotateVector(floatArrayOf(offset?.x, offset?.y, offset?.z))
+        //val temp2 = node?.worldToLocalDirection(offset)
+        //val temp = Vector3.add(anode?.worldPosition, offset)
+        //val temp = Vector3.add((ux_fragment as ArFragment).transformationSystem.selectedNode?.worldPosition, offset?.scaled(scale))
+        //anode?.worldPosition = temp
+        //(ux_fragment as ArFragment).transformationSystem.selectedNode?.worldPosition = temp
+        //(ux_fragment as ArFragment).transformationSystem.selectedNode?.worldPosition = Vector3.lerp(Vector3(0f,0f,0f), offset, scale)
         timerHandler?.postDelayed(this, 50)
     }
 
     fun click(v: View){
+        Log.d("Forward", node.toString())
+        //node?.localRotation = Quaternion.axisAngle(Vector3(0f,1f,0f), 40f)
+        node?.setParent(anode)
+        node?.localPosition = anode2?.localPosition
         timerHandler?.postDelayed(this, 0)
     }
 }
