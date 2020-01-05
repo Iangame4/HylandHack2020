@@ -13,7 +13,7 @@
 
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/flbtnReturn"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -23,6 +23,18 @@
             android:text=""
             app:icon="@android:drawable/ic_dialog_map"
             app:layout_anchorGravity="top|left|end" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/floatingActionButton"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="237dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="8dp"
+            android:backgroundTint="#00E676"
+            android:text="GO!"
+            android:textAlignment="center"
+            app:layout_anchorGravity="bottom|right|end" />
 
     <fragment
             android:id="@+id/ux_fragment"

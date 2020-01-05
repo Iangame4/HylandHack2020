@@ -1,5 +1,6 @@
 package c.hylandhack.kintober
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -51,6 +52,11 @@ class ARProofOfConceptActivity : AppCompatActivity(), Scene.OnUpdateListener, Ru
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_arproof_of_concept)
+
+        flbtnReturn.setOnClickListener {
+            val i = Intent(this, MapsActivity::class.java)
+            startActivity(i)
+        }
 
         // When you build a Renderable, Sceneform loads its resources in the background while returning
        // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
