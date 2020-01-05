@@ -55,9 +55,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
 
             if (cancelCount == 0) {
 
+                //btnCancel.text = "Cancle"
                 cancelCount++
+
             } else {
-                val i = Intent(this, RandomActivity::class.java)
+                val i = Intent(this, MainMenuActivity::class.java)
                 startActivity(i)
             }
         }
