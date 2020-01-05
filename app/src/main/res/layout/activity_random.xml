@@ -81,9 +81,11 @@
 
     <Button
             android:id="@+id/btnCancel"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="337dp"
             android:layout_height="54dp"
             android:layout_marginBottom="16dp"
+            android:backgroundTint="#E53935"
             android:text="@string/btn_cancel"
             app:layout_constraintBottom_toTopOf="@+id/btnConfirm"
             app:layout_constraintEnd_toEndOf="parent"
@@ -91,13 +93,28 @@
 
     <Button
             android:id="@+id/btnConfirm"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="342dp"
             android:layout_height="51dp"
             android:layout_marginBottom="32dp"
+            android:backgroundTint="#69F0AE"
             android:text="@string/btn_confirm"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="88dp"
+            android:layout_marginEnd="148dp"
+            android:layout_marginBottom="33dp"
+            android:text="Miles"
+            app:layout_constraintBottom_toTopOf="@+id/sbMiles"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/etMiles"
+            app:layout_constraintTop_toBottomOf="@+id/tvGenerateRoute" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

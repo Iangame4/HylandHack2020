@@ -11,13 +11,18 @@
             android:layout_height="wrap_content"
             android:text="TextView" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/floatingActionButton"
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            app:srcCompat="@mipmap/ic_walking_foreground"
-            android:onClick="click"/>
+            android:layout_gravity="top|right"
+            android:layout_margin="16dp"
+            android:backgroundTint="#BBDEFB"
+            android:text=""
+            app:icon="@android:drawable/ic_dialog_map"
+            app:layout_anchorGravity="top|left|end" />
 
     <fragment
             android:id="@+id/ux_fragment"
