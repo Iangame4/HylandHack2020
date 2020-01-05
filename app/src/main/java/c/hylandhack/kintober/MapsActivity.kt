@@ -84,6 +84,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
         fusedLocationClient.lastLocation.addOnSuccessListener(this)
     }
 
+
+
     fun generateDestination(latitude: Double, longitude: Double):LatLng {
         val aMinInDegs = 0.01666667
         var chosenOption: Int = Random.nextInt(1,10)
@@ -106,6 +108,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
     override fun onSuccess(p0: Location?) {
         if (p0 != null) {
             val temp = LatLng(p0.latitude, p0.longitude)
+            var ret = LatLng(1.3,3.7)
             mMap.addMarker(MarkerOptions().position(temp).title("Location"))
             this.location = location
             var zoomIn = 14.0f
@@ -117,11 +120,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnSuccessListener<
             )
             val checkIntent = intent.getIntExtra("thing", 0)
             if (checkIntent == 0){
-                val ret = generateDestination(p0.latitude, p0.longitude)
+                ret = generateDestination(p0.latitude, p0.longitude)
                 val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
                 val dt = DownloadTask()
-            dt.execute(str)
+                dt.execute(str)
             } else {
+                println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                mMap.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+                    override fun onMapClick(point: LatLng){
+                        mMap.addMarker(MarkerOptions().position(point).title("Custom Destination"))
+                        ret = point
+                        val str = "https://maps.googleapis.com/maps/api/directions/json?origin=" + temp.latitude.toString() + "," + temp.longitude.toString() + "&destination=" + ret.latitude.toString() + "," + ret.longitude.toString() + "&mode=walking" + "&key=AIzaSyAeXFMly_AQUddMqZqh6fj2GblPijJCCiQ"
+                        val dt = DownloadTask()
+                        dt.execute(str)
+                }
+                })
+
+
             }
         }
     }
